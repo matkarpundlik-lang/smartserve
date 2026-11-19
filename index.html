@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartServe — Restaurant OS</title>
+<style>
+:root{--orange:#f97316;--ink:#20242b;--muted:#78808a;--line:#e9edf1;--bg:#f6f7f9}
+*{box-sizing:border-box}body{margin:0;font:14px Inter,system-ui,Arial;color:var(--ink);background:var(--bg)}
+button{font:inherit;cursor:pointer;border:0}.layout{display:flex;min-height:100vh}
+aside{position:fixed;inset:0 auto 0 0;width:235px;background:white;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column}
+.brand{font-size:20px;font-weight:850;padding:4px 9px 28px}.logo{display:inline-grid;place-items:center;background:var(--orange);color:white;border-radius:10px;width:34px;height:34px;margin-right:8px}.brand small{display:block;margin-left:45px;color:#9aa1a8;font-size:9px;letter-spacing:1.4px}
+.label{font-size:10px;letter-spacing:1.2px;color:#a1a6ad;font-weight:800;padding:13px 10px 7px}
+nav button{display:block;width:100%;padding:11px 10px;margin:2px 0;border-radius:9px;background:transparent;color:#626a73;text-align:left;font-weight:650}
+nav button.active,nav button:hover{background:#fff1e7;color:#df6415}
+.account{margin-top:auto;border-top:1px solid var(--line);padding:17px 8px 0;font-weight:700}.account small{display:block;color:#9aa1a8;font-weight:400;margin:4px 0 0 42px}.avatar{float:left;background:#ffeadb;color:#b44e10;border-radius:50%;width:32px;height:32px;display:grid;place-items:center}
+main{margin-left:235px;width:calc(100% - 235px);padding:26px 32px 50px}.top{color:#969da5;font-size:12px;margin-bottom:28px}.top b{color:#4d535b}
+.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:20px}.eyebrow{color:var(--orange);font-size:10px;font-weight:850;letter-spacing:1.4px;margin-bottom:8px}
+h1{font-size:27px;letter-spacing:-.8px;margin:0 0 6px}.muted{color:var(--muted)}
+.btn{background:var(--orange);color:white;border-radius:9px;padding:11px 15px;font-weight:750}.btn.alt{background:white;color:#555e67;border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.card{background:white;border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 7px 24px #20242b06}
+.statlabel{display:flex;justify-content:space-between;color:#7c838c;font-size:12px}.bubble{background:#fff1e7;color:var(--orange);padding:8px;border-radius:9px}
+.number{font-size:25px;font-weight:850;margin:13px 0 4px}.up{color:#16845f;font-size:11px;font-weight:700}
+.columns{display:grid;grid-template-columns:1.4fr 1fr;gap:15px;margin-bottom:16px}
+.cardhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.cardhead h3{margin:0;font-size:14px}
+.chart{height:190px;display:flex;align-items:end;gap:12px;padding:5px 5px 22px;border-bottom:1px solid var(--line)}
+.barcol{height:100%;flex:1;display:flex;align-items:center;justify-content:end;flex-direction:column;position:relative}
+.bar{width:26px;max-width:75%;border-radius:6px 6px 2px 2px;background:#ffd7bd}.bar.hot{background:var(--orange)}
+.barcol small{position:absolute;bottom:-20px;font-size:10px;color:#9ba1a8}
+.order{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f0f2f4}
+.orderno{width:36px;height:36px;border-radius:10px;background:#fff1e7;color:#d85d12;display:grid;place-items:center;font-weight:800;font-size:11px}
+.order b{font-size:12px}.order small{display:block;color:#9ba1a8;font-size:10px;margin-top:4px}.price{text-align:right;font-weight:800;font-size:12px}
+.pill{background:#fff2e8;color:#d56a25;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:750}.green{background:#e8f7f0;color:#16845f}
+.view{display:none}.view.active{display:block}.tiles,.kitchen,.tables{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tile,.ticket,.tablebox{background:white;border:1px solid var(--line);border-radius:12px;padding:16px}
+.tile h3,.ticket h3{font-size:13px;margin:0 0 7px}.tile p,.ticket p{font-size:12px;color:var(--muted);line-height:1.6}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:#9ba1a8;font-size:10px;padding:10px;border-bottom:1px solid var(--line)}td{padding:13px 10px;border-bottom:1px solid #f0f2f4;font-size:12px}
+.menurow,.food{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.ticket{border-top:3px solid var(--orange)}.ticket.ready{border-top-color:#16845f}
+.customer{max-width:500px;margin:auto;background:white;border:1px solid var(--line);border-radius:15px;overflow:hidden}
+.hero{background:linear-gradient(120deg,#33241d,#74472e);color:white;padding:25px}.hero h2{margin:0 0 5px}.hero p{margin:0;color:#e8d3c5;font-size:11px}
+.food{justify-content:flex-start;gap:12px}.foodpic{width:48px;height:48px;background:#ffe4cf;border-radius:10px;display:grid;place-items:center;font-size:22px}.foodinfo{flex:1}.foodinfo small{display:block;color:#999;margin-top:4px}
+.add{background:#fff1e7;color:#d75d12;border-radius:7px;padding:7px 10px;font-weight:800}
+.note{background:#fff8f2;border:1px solid #ffe1cb;padding:12px;border-radius:9px;color:#865a3e;font-size:11px;margin-top:14px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}}
+@media(max-width:650px){aside{width:65px;padding:17px 7px}.brand{font-size:0;padding:0 8px 22px}.brand small,.label,nav button span,.account small{display:none}.brand .logo{font-size:18px}nav button{text-align:center;padding:12px 0;font-size:18px}main{margin-left:65px;width:calc(100% - 65px);padding:18px 12px}.head{align-items:flex-start;flex-direction:column;gap:12px}h1{font-size:22px}.stats{gap:8px}.number{font-size:21px}.card{padding:13px}.tiles,.kitchen,.tables{grid-template-columns:1fr}}
+</style></head>
+<body><div class="layout"><aside>
+<div class="brand"><span class="logo">S</span>SmartServe<small>RESTAURANT OS</small></div>
+<div class="label">WORKSPACE</div><nav>
+<button class="active" data-page="overview">▦ &nbsp; Overview</button><button data-page="orders">▤ &nbsp; Orders</button><button data-page="menu">☷ &nbsp; Menu management</button><button data-page="tables">▦ &nbsp; Tables & QR</button>
+<div class="label">OPERATIONS</div><button data-page="kitchen">♨ &nbsp; Kitchen display</button><button data-page="waiter">♧ &nbsp; Waiter station</button><button data-page="customer">⌕ &nbsp; Customer QR menu</button>
+<div class="label">MANAGEMENT</div><button data-page="reports">▥ &nbsp; Reports</button><button data-page="admin">⚙ &nbsp; Super admin</button></nav>
+<div class="account"><span class="avatar">GG</span>Garden Grove<small>Owner account · Demo</small></div>
+</aside><main><div class="top">Workspace / <b id="crumb">Overview</b></div>
+<section class="view active" id="overview"><div class="head"><div><div class="eyebrow">SMARTSERVE RESTAURANT OS</div><h1>Good morning, Garden Grove 👋</h1><div class="muted">Here’s what’s happening at your restaurant today.</div></div><button class="btn" onclick="go('orders')">＋ Create order</button></div>
+<div class="stats">
+<div class="card"><div class="statlabel">Today's revenue <span class="bubble">₹</span></div><div class="number">₹24,580</div><div class="up">↗ 12.8% vs yesterday</div></div>
+<div class="card"><div class="statlabel">Total orders <span class="bubble">▤</span></div><div class="number">86</div><div class="up">↗ 8.2% vs yesterday</div></div>
+<div class="card"><div class="statlabel">Average order value <span class="bubble">◉</span></div><div class="number">₹285.81</div><div class="up">↗ 4.6% vs yesterday</div></div>
+<div class="card"><div class="statlabel">Active tables <span class="bubble">▦</span></div><div class="number">12 / 20</div><div class="muted">60% occupancy</div></div></div>
+<div class="columns"><div class="card"><div class="cardhead"><h3>Revenue overview</h3><span class="muted">This week · Sample data</span></div><div class="chart">
+<div class="barcol"><div class="bar" style="height:42%"></div><small>Mon</small></div><div class="barcol"><div class="bar" style="height:60%"></div><small>Tue</small></div><div class="barcol"><div class="bar hot" style="height:78%"></div><small>Wed</small></div><div class="barcol"><div class="bar" style="height:54%"></div><small>Thu</small></div><div class="barcol"><div class="bar" style="height:70%"></div><small>Fri</small></div><div class="barcol"><div class="bar" style="height:91%"></div><small>Sat</small></div><div class="barcol"><div class="bar" style="height:66%"></div><small>Sun</small></div></div></div>
+<div class="card"><div class="cardhead"><h3>Recent orders</h3><span class="muted">Latest activity</span></div>
+<div class="order"><div class="orderno">#1048</div><div><b>Table 08</b><small>2 items · 4 min ago</small></div><div class="price">₹540<br><span class="pill">Preparing</span></div></div>
+<div class="order"><div class="orderno">#1047</div><div><b>Table 03</b><small>3 items · 9 min ago</small></div><div class="price">₹760<br><span class="pill green">Ready</span></div></div>
+<div class="order"><div class="orderno">#1046</div><div><b>Takeaway</b><small>1 item · 12 min ago</small></div><div class="price">₹220<br><span class="pill">New</span></div></div>
+<div class="order"><div class="orderno">#1045</div><div><b>Table 11</b><small>4 items · 18 min ago</small></div><div class="price">₹890<br><span class="pill green">Completed</span></div></div></div></div>
+<div class="card"><div class="cardhead"><h3>Quick access</h3><span class="muted">Jump into your workflow</span></div><div class="tiles">
+<div class="tile"><h3>Manage your menu</h3><p>Add dishes, update prices and control availability.</p><button class="btn alt" onclick="go('menu')">Open menu →</button></div>
+<div class="tile"><h3>Kitchen display</h3><p>Track incoming orders and preparation statuses.</p><button class="btn alt" onclick="go('kitchen')">Open kitchen →</button></div>
+<div class="tile"><h3>Tables & QR codes</h3><p>Organise dining tables and customer QR access.</p><button class="btn alt" onclick="go('tables')">View tables →</button></div></div></div></section>
+<section class="view" id="orders"><div class="head"><div><div class="eyebrow">WORKSPACE</div><h1>Orders</h1><div class="muted">Review and track restaurant orders.</div></div><button class="btn" onclick="alert('Demo only. Database connection is planned for Stage 2.')">＋ New order</button></div><div class="card"><h3>All orders · Sample records</h3><table><tr><th>ORDER</th><th>TABLE / TYPE</th><th>TIME</th><th>AMOUNT</th><th>STATUS</th></tr><tr><td>#1048</td><td>Table 08</td><td>12:18 PM</td><td>₹540</td><td>Preparing</td></tr><tr><td>#1047</td><td>Table 03</td><td>12:13 PM</td><td>₹760</td><td>Ready</td></tr><tr><td>#1046</td><td>Takeaway</td><td>12:10 PM</td><td>₹220</td><td>New</td></tr><tr><td>#1045</td><td>Table 11</td><td>12:04 PM</td><td>₹890</td><td>Completed</td></tr></table></div></section>
+<section class="view" id="menu"><div class="head"><div><div class="eyebrow">WORKSPACE</div><h1>Menu management</h1><div class="muted">Manage dishes, prices and availability.</div></div><button class="btn" onclick="alert('Menu editor will be connected in Stage 2.')">＋ Add item</button></div><div class="columns"><div class="card"><h3>Popular items</h3><div class="menurow">🍕 &nbsp; Farmhouse Pizza <b>₹299</b></div><div class="menurow">🍔 &nbsp; Classic Veg Burger <b>₹149</b></div><div class="menurow">🍝 &nbsp; White Sauce Pasta <b>₹249</b></div><div class="menurow">🥤 &nbsp; Cold Coffee <b>₹129</b></div><div class="menurow">🍰 &nbsp; Chocolate Brownie <b>₹159</b></div></div><div class="card"><h3>Menu categories</h3><div class="menurow">Starters <b>8 items</b></div><div class="menurow">Main course <b>12 items</b></div><div class="menurow">Pizza & Pasta <b>9 items</b></div><div class="menurow">Beverages <b>7 items</b></div><div class="menurow">Desserts <b>5 items</b></div></div></div></section>
+<section class="view" id="tables"><div class="head"><div><div class="eyebrow">WORKSPACE</div><h1>Tables & QR</h1><div class="muted">Table occupancy and QR setup preview.</div></div><button class="btn" onclick="alert('QR generation will be enabled after database setup.')">Generate QR codes</button></div><div class="tables" id="tablegrid"></div></section>
+<section class="view" id="kitchen"><div class="head"><div><div class="eyebrow">OPERATIONS</div><h1>Kitchen display</h1><div class="muted">Sample kitchen tickets for order preparation.</div></div></div><div class="kitchen"><div class="ticket"><h3>#1048 · Table 08</h3><p>2 × Farmhouse Pizza<br>1 × Cold Coffee<br>Note: Extra crispy</p><button class="btn" onclick="this.textContent='Ready ✓';this.closest('.ticket').classList.add('ready')">Mark ready</button></div><div class="ticket ready"><h3>#1047 · Table 03</h3><p>1 × White Sauce Pasta<br>2 × Classic Veg Burger<br>1 × Lemon Soda</p><span class="pill green">Ready</span></div><div class="ticket"><h3>#1046 · Takeaway</h3><p>1 × Chocolate Brownie<br>Packaging: Takeaway</p><button class="btn" onclick="this.textContent='Ready ✓';this.closest('.ticket').classList.add('ready')">Mark ready</button></div></div></section>
+<section class="view" id="waiter"><div class="head"><div><div class="eyebrow">OPERATIONS</div><h1>Waiter station</h1><div class="muted">Table overview and service request preview.</div></div></div><div class="tiles"><div class="tile"><h3>Table 01</h3><p>Available · No pending requests</p></div><div class="tile"><h3>Table 02</h3><p>Occupied · Guest needs assistance</p><button class="btn alt" onclick="alert('Service actions connect in Stage 2.')">View request</button></div><div class="tile"><h3>Table 03</h3><p>Occupied · Bill requested</p><button class="btn alt" onclick="alert('Billing actions connect in Stage 2.')">View request</button></div></div></section>
+<section class="view" id="customer"><div class="head"><div><div class="eyebrow">CUSTOMER EXPERIENCE</div><h1>Customer QR menu</h1><div class="muted">Guest ordering interface preview.</div></div></div><div class="customer"><div class="hero"><h2>Garden Grove</h2><p>Good food. Great moments. · Table 08</p></div><div style="padding:17px"><h3>Popular picks</h3>
+<div class="food"><div class="foodpic">🍕</div><div class="foodinfo"><b>Farmhouse Pizza</b><small>Fresh vegetables · ₹299</small></div><button class="add" onclick="this.textContent=this.textContent==='ADD'?'ADDED ✓':'ADD'">ADD</button></div>
+<div class="food"><div class="foodpic">🍔</div><div class="foodinfo"><b>Classic Veg Burger</b><small>Crispy patty · ₹149</small></div><button class="add" onclick="this.textContent=this.textContent==='ADD'?'ADDED ✓':'ADD'">ADD</button></div>
+<div class="food"><div class="foodpic">🍝</div><div class="foodinfo"><b>White Sauce Pasta</b><small>Creamy pasta · ₹249</small></div><button class="add" onclick="this.textContent=this.textContent==='ADD'?'ADDED ✓':'ADD'">ADD</button></div>
+<div class="note">Preview mode: adding items is a visual interaction. Real order placement will be enabled after database integration.</div></div></div></section>
+<section class="view" id="reports"><div class="head"><div><div class="eyebrow">MANAGEMENT</div><h1>Reports & analytics</h1><div class="muted">Illustrative sample performance.</div></div></div><div class="stats"><div class="card">Weekly sales<div class="number">₹1,42,800</div></div><div class="card">Orders this week<div class="number">512</div></div><div class="card">Top category<div class="number">Main course</div></div><div class="card">Repeat customers<div class="number">34%</div></div></div><div class="card"><h3>Weekly revenue trend</h3><div class="chart"><div class="barcol"><div class="bar" style="height:48%"></div><small>Mon</small></div><div class="barcol"><div class="bar" style="height:62%"></div><small>Tue</small></div><div class="barcol"><div class="bar" style="height:56%"></div><small>Wed</small></div><div class="barcol"><div class="bar" style="height:74%"></div><small>Thu</small></div><div class="barcol"><div class="bar" style="height:69%"></div><small>Fri</small></div><div class="barcol"><div class="bar hot" style="height:94%"></div><small>Sat</small></div><div class="barcol"><div class="bar" style="height:81%"></div><small>Sun</small></div></div></div></section>
+<section class="view" id="admin"><div class="head"><div><div class="eyebrow">PLATFORM MANAGEMENT</div><h1>SmartServe super admin</h1><div class="muted">Platform overview · Demo only.</div></div></div><div class="stats"><div class="card">Restaurants<div class="number">24</div></div><div class="card">Active subscriptions<div class="number">19</div></div><div class="card">Monthly recurring revenue<div class="number">₹47,500</div></div><div class="card">Platform orders<div class="number">8,642</div></div></div><div class="card"><h3>Restaurant accounts · Sample tenants</h3><table><tr><th>RESTAURANT</th><th>PLAN</th><th>STATUS</th></tr><tr><td>Garden Grove</td><td>Growth</td><td>Active</td></tr><tr><td>The Chocolate Heaven</td><td>Starter</td><td>Active</td></tr><tr><td>Urban Tadka</td><td>Growth</td><td>Trial</td></tr></table></div></section>
+<p class="muted" style="font-size:10px;margin-top:22px">SmartServe Stage 1 prototype · All figures and records are illustrative demo data. Live database, login, payments and real-time syncing are not enabled yet.</p>
+</main></div>
+<script>
+function go(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));let b=document.querySelector('nav button[data-page="'+id+'"]');document.getElementById('crumb').textContent=b?b.textContent.trim():'Overview';window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+document.getElementById('tablegrid').innerHTML=Array.from({length:12},(_,i)=>'<div class="tablebox"><span class="muted">DINING TABLE</span><h2>Table '+String(i+1).padStart(2,'0')+'</h2><span class="pill '+(i%3===0?'green':'')+'">'+(i%3===0?'Available':'Occupied')+'</span><p class="muted">QR code · Demo</p></div>').join('');
+</script></body></html>
